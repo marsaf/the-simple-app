@@ -10,11 +10,15 @@ build:
 
 push-to-releases:
   steps:
-    # Push to public docker repo Container Registry (CR)
+    # Push to Oracle Cloud Infrastructure Registry (OCIR)
     - internal/docker-push:
         tag: $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
         cmd: node /pipeline/source/app.js
-
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+        repository: $DOCKER_REPO
+        registry: https://phx.ocir.io/v2
+        
 # for now we will delete and recreate the namespace, however, at some point that may be a little much for just a redeployment of the Pod! 
 deploy-to-oke:
   box:
@@ -50,7 +54,7 @@ deploy-to-oke:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: create secret docker-registry wrelease --docker-server=wcr.io --docker-username=$WERCKER_APPLICATION_OWNER_NAME --docker-password=$KUBERNETES_TOKEN --docker-email=${WERCKER_APPLICATION_OWNER_NAME}@mail.com --namespace=$WERCKER_APPLICATION_OWNER_NAME
+        command: create secret docker-registry wrelease --docker-server=phx.ocir.io --docker-username=$WERCKER_APPLICATION_OWNER_NAME --docker-password=$KUBERNETES_TOKEN --docker-email=${WERCKER_APPLICATION_OWNER_NAME}@mail.com --namespace=$WERCKER_APPLICATION_OWNER_NAME
 
     - kubectl:
         name: create TLS secret
