@@ -21,7 +21,7 @@ spec:
         run: rest-simpleapp
     spec:
       containers:
-      - image: $DOCKER_REPO:$WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
+      - image: phx.ocir.io/$WERCKER_APPLICATION_OWNER_NAME/$WERCKER_APPLICATION_NAME:$WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
         imagePullPolicy: Always
         name: rest-simpleapp
         ports:
