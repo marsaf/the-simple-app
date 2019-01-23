@@ -53,6 +53,8 @@ deploy-to-oke:
         name: create OCR secret
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
         insecure-skip-tls-verify: true
         command: create secret docker-registry wrelease --docker-server=phx.ocir.io --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_PASSWORD --docker-email=${WERCKER_APPLICATION_OWNER_NAME}@mail.com --namespace=$WERCKER_APPLICATION_OWNER_NAME
 
